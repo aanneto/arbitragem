@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <title>Arbitragem de criptomoedas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div>
+      <table class="table table-bordered table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th rowspan="3">Exchange venda</th>
+            <th rowspan="3">Exchange compra</th>
+            <th rowspan="3">Investimento total</th>
+            <th rowspan="3">Quantidade total</th>
+            <th rowspan="3">Lucro máximo</th>
+            <th colspan="5">Operações</th>
+          </tr>
+          <tr>
+            <th colspan="2">Ordens exchange venda</th>
+            <th colspan="2">Ordens exchange compra</th>
+            <th rowspan="2">Lucro</th>
+          </tr>
+          <tr>
+            <th>Preço</th>
+            <th>Quantidade</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ccxt@1.18.489/dist/ccxt.browser.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>

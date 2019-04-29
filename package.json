@@ -1,0 +1,22 @@
+{
+  "name": "arbitragem",
+  "version": "0.0.1",
+  "description": "Projeto para listar as oportunidades de arbitragem de criptomoedas nas exchanges brasileiras.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Carlson Santana Cruz",
+  "license": "MIT",
+  "keywords": [
+    "arbitragem",
+    "bitcoin",
+    "exchange",
+    "criptomoedas"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.4",
+    "grunt-eslint": "^21.0.0"
+  }
+}
