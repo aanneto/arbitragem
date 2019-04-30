@@ -64,8 +64,24 @@ function addCellList(tbody, row, results) {
     for (var i = 0, length = results.buyOrders.length; i < length; i++) {
         addCell(row, formatCurrency('BRL', results.sellOrders[i][0]), 1);
         addCell(row, formatCurrency('BTC', results.sellOrders[i][1]), 1);
+        addCell(
+            row,
+            formatCurrency(
+                'BRL',
+                results.sellOrders[i][0] * results.sellOrders[i][1]
+            ),
+            1
+        );
         addCell(row, formatCurrency('BRL', results.buyOrders[i][0]), 1);
         addCell(row, formatCurrency('BTC', results.buyOrders[i][1]), 1);
+        addCell(
+            row,
+            formatCurrency(
+                'BRL',
+                results.buyOrders[i][0] * results.buyOrders[i][1]
+            ),
+            1
+        );
         investiment += results.sellOrders[i][0] * results.sellOrders[i][1];
         profit += (
             (results.buyOrders[i][0] * results.buyOrders[i][1])
