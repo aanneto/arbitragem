@@ -184,7 +184,6 @@ async function getExchanges() {
     var braziliex = new ccxt.braziliex(
         {'proxy': 'https://cors-anywhere.herokuapp.com/'}
     );
-    var foxbit = new ccxt.foxbit();
 
     var exchanges = [
         {
@@ -198,10 +197,6 @@ async function getExchanges() {
         {
             exchange: braziliex,
             orders: await braziliex.fetchOrderBook('BTC/BRL')
-        },
-        {
-            exchange: foxbit,
-            orders: await foxbit.fetchOrderBook('BTC/BRL')
         }
     ];
 
