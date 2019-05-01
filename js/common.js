@@ -59,34 +59,50 @@ function addCellLink(row, text, url, rowspan) {
 }
 
 function addCellList(tbody, row, results) {
+    var rowspan;
     var profit = 0;
     var investiment = 0;
-    for (var i = 0, length = results.buyOrders.length; i < length; i++) {
-        addCell(row, formatCurrency('BRL', results.sellOrders[i][0]), 1);
-        addCell(row, formatCurrency('BTC', results.sellOrders[i][1]), 1);
-        addCell(
-            row,
-            formatCurrency(
-                'BRL',
-                results.sellOrders[i][0] * results.sellOrders[i][1]
-            ),
-            1
+    var changeSell = true;
+    var changeBuy = true;
+    var sellOrder;
+    var buyOrder;
+    for (
+        var sellIndex = 0, buyIndex = 0, length = Math.max(
+            results.sellOrders.length,
+            results.buyOrders.length
         );
-        addCell(row, formatCurrency('BRL', results.buyOrders[i][0]), 1);
-        addCell(row, formatCurrency('BTC', results.buyOrders[i][1]), 1);
-        addCell(
-            row,
-            formatCurrency(
-                'BRL',
-                results.buyOrders[i][0] * results.buyOrders[i][1]
-            ),
-            1
+        (sellIndex < length) && (buyIndex < length);
+    ) {
+        sellOrder = results.sellOrders[sellIndex];
+        buyOrder = results.buyOrders[buyIndex];
+        if (changeSell) {
+            rowspan = sellOrder[2];
+            addCell(row, formatCurrency('BRL', sellOrder[0]), rowspan);
+            addCell(row, formatCurrency('BTC', sellOrder[1]), rowspan);
+            addCell(
+                row,
+                formatCurrency('BRL', sellOrder[0] * sellOrder[1]),
+                rowspan
+            );
+            changeSell = false;
+        }
+        if (changeBuy) {
+            rowspan = buyOrder[2];
+            addCell(row, formatCurrency('BRL', buyOrder[0]), rowspan);
+            addCell(row, formatCurrency('BTC', buyOrder[1]), rowspan);
+            addCell(
+                row,
+                formatCurrency('BRL', buyOrder[0] * buyOrder[1]),
+                rowspan
+            );
+            changeBuy = false;
+        }
+        var amount = Math.min(
+            sellOrder[1],
+            buyOrder[1]
         );
-        investiment += results.sellOrders[i][0] * results.sellOrders[i][1];
-        profit += (
-            (results.buyOrders[i][0] * results.buyOrders[i][1])
-            - (results.sellOrders[i][0] * results.sellOrders[i][1])
-        );
+        investiment += sellOrder[0] * amount;
+        profit += (buyOrder[0] * amount) - (sellOrder[0] * amount);
         addCell(
             row,
             (
@@ -100,6 +116,16 @@ function addCellList(tbody, row, results) {
             ),
             1
         );
+        sellOrder[2]--;
+        buyOrder[2]--;
+        if (sellOrder[2] <= 0) {
+            sellIndex++;
+            changeSell = true;
+        }
+        if (buyOrder[2] <= 0) {
+            buyIndex++;
+            changeBuy = true;
+        }
         tbody.appendChild(row);
         row = document.createElement('tr');
     }
@@ -168,8 +194,20 @@ function calcularMoedasMenorMaior(sellOrders, buyOrders) {
             - (amountTrade * sellOrders[sellIndex][0])
         );
 
-        sellOrdersSimulation.push([sellOrders[sellIndex][0], amountTrade]);
-        buyOrdersSimulation.push([buyOrders[buyIndex][0], amountTrade]);
+        if (sellOrdersSimulation.length <= sellIndex) {
+            sellOrdersSimulation.push(
+                [sellOrders[sellIndex][0], amountTrade, 1]
+            );
+        } else {
+            sellOrdersSimulation[sellIndex][1] += amountTrade;
+            sellOrdersSimulation[sellIndex][2]++;
+        }
+        if (buyOrdersSimulation.length <= buyIndex) {
+            buyOrdersSimulation.push([buyOrders[buyIndex][0], amountTrade, 1]);
+        } else {
+            buyOrdersSimulation[buyIndex][1] += amountTrade;
+            buyOrdersSimulation[buyIndex][2]++;
+        }
 
         if (sellOrders[sellIndex][1] === 0) {
             sellIndex++;
