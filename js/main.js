@@ -7,7 +7,7 @@
         indexA++
     ) {
         for (var indexB = indexA + 1; indexB < length; indexB++) {
-            var results = calcularMoedas(
+            var results = simulateOrders(
                 exchanges[indexA].orders,
                 exchanges[indexB].orders
             );

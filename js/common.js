@@ -141,15 +141,15 @@ function getFormatedProfit(results) {
     );
 }
 
-function calcularMoedas(ordersA, ordersB) {
+function simulateOrders(ordersA, ordersB) {
     if (ordersA.asks[0][0] < ordersB.bids[0][0]) {
-        return calcularMoedasMenorMaior(ordersA.asks, ordersB.bids);
+        return simulateSellBuyOrders(ordersA.asks, ordersB.bids);
     } else {
-        return calcularMoedasMenorMaior(ordersB.asks, ordersA.bids);
+        return simulateSellBuyOrders(ordersB.asks, ordersA.bids);
     }
 }
 
-function calcularMoedasMenorMaior(sellOrders, buyOrders) {
+function simulateSellBuyOrders(sellOrders, buyOrders) {
     var minimumValue = sellOrders[0][0];
     var maximumValue = buyOrders[0][0];
 
