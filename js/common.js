@@ -36,8 +36,11 @@ function sortExchanges(exchangeA, exchangeB) {
     }
 }
 
-function addCell(row, text, rowspan) {
+function addCell(row, text, rowspan, dataAttribute) {
     var cell = document.createElement('td');
+    if (dataAttribute) {
+        cell.setAttribute('data-operation', dataAttribute);
+    }
     cell.appendChild(document.createTextNode(text));
     if (rowspan > 1) {
         cell.setAttribute('rowspan', rowspan.toString());
@@ -58,7 +61,7 @@ function addCellLink(row, text, url, rowspan) {
     row.appendChild(cell);
 }
 
-function addCellList(tbody, row, results) {
+function addCellList(tbody, row, results, dataAttribute) {
     var rowspan;
     var profit = 0;
     var investiment = 0;
@@ -77,23 +80,25 @@ function addCellList(tbody, row, results) {
         buyOrder = results.buyOrders[buyIndex];
         if (changeSell) {
             rowspan = sellOrder[2];
-            addCell(row, formatCurrency('BRL', sellOrder[0]), rowspan);
-            addCell(row, formatCurrency('BTC', sellOrder[1]), rowspan);
+            addCell(row, formatCurrency('BRL', sellOrder[0]), rowspan, 'sell');
+            addCell(row, formatCurrency('BTC', sellOrder[1]), rowspan, 'sell');
             addCell(
                 row,
                 formatCurrency('BRL', sellOrder[0] * sellOrder[1]),
-                rowspan
+                rowspan,
+                'sell'
             );
             changeSell = false;
         }
         if (changeBuy) {
             rowspan = buyOrder[2];
-            addCell(row, formatCurrency('BRL', buyOrder[0]), rowspan);
-            addCell(row, formatCurrency('BTC', buyOrder[1]), rowspan);
+            addCell(row, formatCurrency('BRL', buyOrder[0]), rowspan, 'buy');
+            addCell(row, formatCurrency('BTC', buyOrder[1]), rowspan, 'buy');
             addCell(
                 row,
                 formatCurrency('BRL', buyOrder[0] * buyOrder[1]),
-                rowspan
+                rowspan,
+                'buy'
             );
             changeBuy = false;
         }
@@ -126,6 +131,7 @@ function addCellList(tbody, row, results) {
             buyIndex++;
             changeBuy = true;
         }
+        row.setAttribute('data-exchanges', dataAttribute);
         tbody.appendChild(row);
         row = document.createElement('tr');
     }

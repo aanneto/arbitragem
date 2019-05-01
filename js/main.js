@@ -12,6 +12,11 @@
                 exchanges[indexB].orders
             );
             if (results.buyOrders.length > 0) {
+                var dataAttribute = (
+                    exchanges[indexB].exchange.id
+                    + '-'
+                    + exchanges[indexA].exchange.id
+                );
                 var row = document.createElement('tr');
                 var rowspan = Math.max(
                     results.buyOrders.length,
@@ -52,7 +57,17 @@
                     rowspan
                 );
 
-                addCellList(tbody, row, results);
+                addCellList(
+                    tbody,
+                    row,
+                    results,
+                    (
+                        exchanges[indexB].exchange.id
+                        + '-'
+                        + exchanges[indexA].exchange.id
+                    ),
+                    dataAttribute
+                );
             }
         }
     }
