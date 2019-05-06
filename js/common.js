@@ -171,6 +171,7 @@ function simulateSellBuyOrders(sellOrders, buyOrders, userInvestment) {
     var profit = 0;
     var amount = 0;
     var amountTrade = 0;
+    var numberOperations = 0;
     sellOrders = sellOrders.map(function(arr) {
         return arr.slice();
     });
@@ -205,6 +206,7 @@ function simulateSellBuyOrders(sellOrders, buyOrders, userInvestment) {
             amountTrade = userInvestment/sellOrders[sellIndex][0];
         }
 
+        numberOperations++;
         sellOrders[sellIndex][1] -= amountTrade;
         buyOrders[buyIndex][1] -= amountTrade;
         userInvestment -= amountTrade * sellOrders[sellIndex][0];
@@ -251,7 +253,8 @@ function simulateSellBuyOrders(sellOrders, buyOrders, userInvestment) {
         profit: profit,
         amount: amount,
         buyOrders: buyOrdersSimulation,
-        sellOrders: sellOrdersSimulation
+        sellOrders: sellOrdersSimulation,
+        numberOperations: numberOperations
     };
 }
 
@@ -308,10 +311,7 @@ async function reloadTable() {
                     + exchanges[indexA].exchange.id
                 );
                 var row = document.createElement('tr');
-                var rowspan = Math.max(
-                    results.buyOrders.length,
-                    results.sellOrders.length
-                );
+                var rowspan = results.numberOperations;
 
                 addCellLink(
                     row,
