@@ -147,15 +147,23 @@ function getFormatedProfit(results) {
     );
 }
 
-function simulateOrders(ordersA, ordersB) {
+function simulateOrders(ordersA, ordersB, userInvestment) {
     if (ordersA.asks[0][0] < ordersB.bids[0][0]) {
-        return simulateSellBuyOrders(ordersA.asks, ordersB.bids);
+        return simulateSellBuyOrders(
+            ordersA.asks,
+            ordersB.bids,
+            userInvestment
+        );
     } else {
-        return simulateSellBuyOrders(ordersB.asks, ordersA.bids);
+        return simulateSellBuyOrders(
+            ordersB.asks,
+            ordersA.bids,
+            userInvestment
+        );
     }
 }
 
-function simulateSellBuyOrders(sellOrders, buyOrders) {
+function simulateSellBuyOrders(sellOrders, buyOrders, userInvestment) {
     var minimumValue = sellOrders[0][0];
     var maximumValue = buyOrders[0][0];
 
@@ -179,18 +187,27 @@ function simulateSellBuyOrders(sellOrders, buyOrders) {
         (sellOrders[sellIndex][0] < maximumValue)
         && (buyOrders[buyIndex][0] > minimumValue)
         && (sellOrders[sellIndex][0] < buyOrders[buyIndex][0])
+        && (userInvestment > 0)
     ) {
         if (
-            sellOrders[sellIndex][1]
-            < buyOrders[buyIndex][1]
+            (sellOrders[sellIndex][1] < buyOrders[buyIndex][1])
+            && (
+                (sellOrders[sellIndex][0] * sellOrders[sellIndex][1])
+                < userInvestment
+            )
         ) {
             amountTrade = sellOrders[sellIndex][1];
-        } else {
+        } else if (
+            (buyOrders[buyIndex][0] * buyOrders[buyIndex][1]) < userInvestment
+        ) {
             amountTrade = buyOrders[buyIndex][1];
+        } else {
+            amountTrade = userInvestment/sellOrders[sellIndex][0];
         }
 
         sellOrders[sellIndex][1] -= amountTrade;
         buyOrders[buyIndex][1] -= amountTrade;
+        userInvestment -= amountTrade * sellOrders[sellIndex][0];
         amount += amountTrade;
         investiment += (
             amountTrade * sellOrders[sellIndex][0]
@@ -270,6 +287,9 @@ async function reloadTable() {
     while (tbody.hasChildNodes()) {
         tbody.removeChild(tbody.lastChild);
     }
+    var userInvestment = parseFloat(
+        document.getElementById('investment').value
+    );
     for (
         var indexA = 0, length = exchanges.length;
         indexA < length;
@@ -278,7 +298,8 @@ async function reloadTable() {
         for (var indexB = indexA + 1; indexB < length; indexB++) {
             var results = simulateOrders(
                 exchanges[indexA].orders,
-                exchanges[indexB].orders
+                exchanges[indexB].orders,
+                userInvestment
             );
             if (results.buyOrders.length > 0) {
                 var dataAttribute = (
