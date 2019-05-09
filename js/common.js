@@ -1,3 +1,5 @@
+const ccxt = require('ccxt');
+
 function getFractionDigits(currency) {
     if (currency == 'BRL') {
         return {minimumFractionDigits: 2, maximumFractionDigits: 2};
@@ -362,3 +364,7 @@ async function reloadTable() {
         }
     }
 }
+
+module.exports = {
+    reloadTable: reloadTable
+};

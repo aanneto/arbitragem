@@ -1,4 +1,6 @@
+const common = require('common');
+
 (async function() {
-    reloadTable();
-    setInterval(reloadTable, 60000);
+    common.reloadTable();
+    setInterval(common.reloadTable, 60000);
 })();
