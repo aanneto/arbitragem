@@ -262,7 +262,6 @@ function simulateSellBuyOrders(sellOrders, buyOrders, userInvestment) {
 
 async function getExchanges() {
     var mercado = new ccxt.mercado();
-    var negociecoins = new ccxt.negociecoins();
     var braziliex = new ccxt.braziliex(
         {'proxy': 'https://cors-anywhere.herokuapp.com/'}
     );
@@ -271,10 +270,6 @@ async function getExchanges() {
         {
             exchange: mercado,
             orders: await mercado.fetchOrderBook('BTC/BRL')
-        },
-        {
-            exchange: negociecoins,
-            orders: await negociecoins.fetchOrderBook('BTC/BRL')
         },
         {
             exchange: braziliex,
