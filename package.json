@@ -15,11 +15,11 @@
     "criptomoedas"
   ],
   "dependencies": {
-    "ccxt": "^1.18.511",
-    "grunt-browserify": "^5.3.0"
+    "ccxt": "^1.18.511"
   },
   "devDependencies": {
     "grunt": "^1.0.4",
+    "grunt-browserify": "^5.3.0",
     "grunt-eslint": "^21.0.0"
   }
 }
