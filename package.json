@@ -15,7 +15,8 @@
     "criptomoedas"
   ],
   "dependencies": {
-    "ccxt": "^1.18.511"
+    "ccxt": "^1.18.511",
+    "http-browserify": "^1.7.0"
   },
   "devDependencies": {
     "grunt": "^1.0.4",
