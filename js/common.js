@@ -1,5 +1,6 @@
 const ccxt = require('ccxt');
 const coinextModule = require('./exchanges/coinext.js');
+const bitcointradeModule = require('./exchanges/bitcointrade.js');
 
 function getFractionDigits(currency) {
     if (currency == 'BRL') {
@@ -267,6 +268,7 @@ async function getExchanges() {
         {'proxy': 'https://cors-anywhere.herokuapp.com/'}
     );
     var coinext = new coinextModule.CoinextExchange();
+    var bitcointrade = new bitcointradeModule.BitcoinTradeExchange();
 
     var exchanges = [
         {
@@ -280,6 +282,10 @@ async function getExchanges() {
         {
             exchange: coinext,
             orders: await coinext.getOrders()
+        },
+        {
+            exchange: bitcointrade,
+            orders: await bitcointrade.getOrders()
         }
     ];
 
