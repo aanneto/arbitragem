@@ -1,6 +1,7 @@
 const ccxt = require('ccxt');
 const coinextModule = require('./exchanges/coinext.js');
 const bitcointradeModule = require('./exchanges/bitcointrade.js');
+const bisqModule = require('./exchanges/bisq.js');
 
 function getFractionDigits(currency) {
     if (currency == 'BRL') {
@@ -269,6 +270,7 @@ async function getExchanges() {
     );
     var coinext = new coinextModule.CoinextExchange();
     var bitcointrade = new bitcointradeModule.BitcoinTradeExchange();
+    var bisq = new bisqModule.BisqExchange();
 
     var exchanges = [
         {
@@ -286,6 +288,10 @@ async function getExchanges() {
         {
             exchange: bitcointrade,
             orders: await bitcointrade.getOrders()
+        },
+        {
+            exchange: bisq,
+            orders: await bisq.getOrders()
         }
     ];
 
