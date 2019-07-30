@@ -40,7 +40,7 @@ class BitcoinTradeExchange {
                             i < length;
                             i++
                         ) {
-                            let order = responseJSON.bids[i];
+                            let order = responseJSON.asks[i];
                             result.asks.push([order.unit_price, order.amount]);
                         }
                         
